@@ -71,7 +71,7 @@ public class DataInitializer implements CommandLineRunner {
         LocalDate base = LocalDate.now().minusDays(57);
         for (int i = 0; i < 20; i++) {
             CivilComplaint c = new CivilComplaint();
-            c.setReceiptNumber(String.format("2025-민원-%04d", i + 1));
+            c.setReceiptNumber(String.format("2026-민원-%04d", i + 1));
             c.setComplaintType(types[i % types.length]);
             c.setReceiptDate(base.plusDays(i * 3));
             c.setStatus(statuses[i]);
