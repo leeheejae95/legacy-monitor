@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<body>
+<nav class="sidebar" th:fragment="sidebar(activePage)">
+    <div class="sidebar-logo">
+        <div class="logo-title">공공기관<br>시스템 운영 현황</div>
+        <div class="logo-sub">Legacy Monitor Admin</div>
+    </div>
+    <ul class="sidebar-menu">
+        <li class="sidebar-menu-label">운영 현황</li>
+        <li th:classappend="${activePage == 'batch'} ? 'active'">
+            <a th:href="@{/batch}">배치 처리 결과</a>
+        </li>
+        <li th:classappend="${activePage == 'civil'} ? 'active'">
+            <a th:href="@{/civil}">민원 처리 현황</a>
+        </li>
+        <li th:classappend="${activePage == 'error-log'} ? 'active'">
+            <a th:href="@{/error-log}">시스템 에러 로그</a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>
