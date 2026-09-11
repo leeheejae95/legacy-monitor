@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시스템 에러 로그 - 공공기관 시스템 운영 현황</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="wrapper">
+    <aside th:replace="~{layout :: sidebar('error-log')}"></aside>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <span class="top-bar-title">시스템 에러 로그</span>
+            <div class="top-bar-right">
+                <span class="top-bar-user" th:text="${username} + ' 님'"></span>
+                <form th:action="@{/logout}" method="post" style="margin:0">
+                    <button class="btn-logout" type="submit">로그아웃</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">전체 로그</div>
+                    <div class="stat-value" th:text="${logs.size()}">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">총 발생 횟수</div>
+                    <div class="stat-value danger" th:text="${totalCount}">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">영향 서비스 수</div>
+                    <div class="stat-value" th:text="${serviceCount}">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">최대 발생 횟수</div>
+                    <div class="stat-value danger" th:text="${maxCount}">0</div>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <div class="data-card-header">
+                    <h3>에러 로그 목록</h3>
+                    <a th:href="@{/error-log/excel}" class="btn-excel">엑셀 다운로드</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>서비스명</th>
+                                <th>에러타입</th>
+                                <th>발생시간</th>
+                                <th>횟수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="log, stat : ${logs}">
+                                <td th:text="${stat.count}" class="num-gray"></td>
+                                <td th:text="${log.serviceName}"></td>
+                                <td><code th:text="${log.errorType}"></code></td>
+                                <td th:text="${#temporals.format(log.occurredAt, 'yyyy-MM-dd HH:mm')}"></td>
+                                <td th:class="${log.count >= 20} ? 'num-fail' :
+                                              (${log.count >= 10} ? 'num-total' : 'num-gray')"
+                                    th:text="${log.count}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
